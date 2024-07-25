@@ -5,13 +5,13 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-const adminRoutes = require('./routes/admin');
+const adminProducts = require('./Routes/admin');
 const shopRoutes = require('./routes/shop');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));  // this line will give the access to the file  see in network
 
-app.use('/admin', adminRoutes);
+app.use('/admin', adminProducts.router);
 app.use(shopRoutes);
 
 app.use((req, res, next) => {
