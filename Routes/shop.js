@@ -1,13 +1,24 @@
-const path = require("path"); // this the global module to work with path
-const express = require("express");
+const path = require('path');
+
+const express = require('express');
+
+const rootDir = require('../util/path');
+const adminData = require('./admin');
+
 const router = express.Router();
 
-const rootdir = require("../util/path");
-const adminProducts = require("../Routes/admin");
+router.get('/', (req, res, next) => {
+  const products = adminData.products;
 
-router.get("/", (req, res, next) => {
-    console.log("shop" , adminProducts.products);
-  res.sendFile(path.join(rootdir, "views", "shop.html"));
+  res.render('shop', {
+    prods: products,
+    pageTitle: 'Shop',
+    path: '/',
+   
+
+   
+  });
 });
 
 module.exports = router;
+

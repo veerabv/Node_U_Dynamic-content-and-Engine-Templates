@@ -75,3 +75,13 @@ module.exports = path.dirname(require.main.filename); // this is used to get the
 ## Public files 
 
 app.use(express.static(path.join(__dirname, 'public')));  // this line will give the access to the file 
+
+  npm install --save 
+## app.set  and render() method:
+
+ - see the link in the official doc of express
+
+  app.set('view engine' , 'ejs');  // we use ejs engine so we give this
+  app.set('views','views') // where we have the view files / html file
+
+
