@@ -85,3 +85,11 @@ app.use(express.static(path.join(__dirname, 'public')));  // this line will give
   app.set('views','views') // where we have the view files / html file
 
 
+
+  ## Adding dynamic Routes 
+
+  routes.get("/path/:dynamicdata" , controller)  // : is ipmortant that the text after colon treat as variable , 
+
+  we can get the data of the variable using req.params.dyanmicdata
+
+

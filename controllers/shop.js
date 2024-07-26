@@ -11,6 +11,20 @@ exports.getProducts = (req, res, next) => {
   }); // run the static method from the Class name itself "Product" capital P
 };
 
+exports.getProduct = (req,res,next) => {
+  const id  = req.params.productId;
+  Product.getProduct(id,(product)=> {
+    res.render("shop/product-detail", {
+      product : product,
+      pageTitle : product.pageTitle,
+      path:"/products"
+
+    })
+  })
+
+  
+
+}
 
 exports.getIndex = (req,res,next) => {
   Product.fetchAllProduct((products) => {
