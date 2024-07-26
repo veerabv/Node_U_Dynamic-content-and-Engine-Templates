@@ -1,6 +1,5 @@
 const Product = require("../Models/product"); // we import the class Product
 
-
 exports.getProducts = (req, res, next) => {
   Product.fetchAllProduct((products) => {
     res.render("shop/product-list", {
@@ -11,22 +10,18 @@ exports.getProducts = (req, res, next) => {
   }); // run the static method from the Class name itself "Product" capital P
 };
 
-exports.getProduct = (req,res,next) => {
-  const id  = req.params.productId;
-  Product.getProduct(id,(product)=> {
+exports.getProduct = (req, res, next) => {
+  const id = req.params.productId;
+  Product.getProduct(id, (product) => {
     res.render("shop/product-detail", {
-      product : product,
-      pageTitle : product.pageTitle,
-      path:"/products"
+      product: product,
+      pageTitle: product.pageTitle,
+      path: "/products",
+    });
+  });
+};
 
-    })
-  })
-
-  
-
-}
-
-exports.getIndex = (req,res,next) => {
+exports.getIndex = (req, res, next) => {
   Product.fetchAllProduct((products) => {
     res.render("shop/index", {
       prods: products,
@@ -34,26 +29,31 @@ exports.getIndex = (req,res,next) => {
       path: "/",
     });
   });
-}
+};
 
-exports.getCart = (req,res,next) => {
-res.render('shop/cart' , {
-  path : '/cart',
-  pageTitle : 'Your Cart'
-})
-}
+exports.postCart = (req, res, next) => {
+  const prodId = req.body.productId;
+  console.log(prodId);
+  res.redirect("/cart");
+};
 
+exports.getCart = (req, res, next) => {
+  res.render("shop/cart", {
+    path: "/cart",
+    pageTitle: "Your Cart",
+  });
+};
 
-exports.getOrders = (req,res,next) => {
-  res.render('shop/orders' , {
-    path : '/orders',
-    pageTitle : 'Your Orders'
-  })
-  }
+exports.getOrders = (req, res, next) => {
+  res.render("shop/orders", {
+    path: "/orders",
+    pageTitle: "Your Orders",
+  });
+};
 
-exports.getCheckout = (req,res,next) => {
-  res.render('shop/checkout',{
-    path : 'checkout',
-    pageTitle : 'checkout'
-  })
-}
+exports.getCheckout = (req, res, next) => {
+  res.render("shop/checkout", {
+    path: "checkout",
+    pageTitle: "checkout",
+  });
+};
