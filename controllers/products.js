@@ -14,11 +14,11 @@ exports.postAddProducts = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAllProduct((products) =>
+  Product.fetchAllProduct((products) => {
     res.render("shop", {
       prods: products,
       pageTitle: "Shop",
       path: "/",
-    })
-  ); // run the static method from the Class name itself "Product" capital P
+    });
+  }); // run the static method from the Class name itself "Product" capital P
 };
