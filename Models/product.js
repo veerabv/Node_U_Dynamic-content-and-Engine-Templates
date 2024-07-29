@@ -13,7 +13,10 @@ module.exports = class Product {
     this.description = description;
   }
   save() {
-   
+   return db.execute("INSERT INTO products (title,price,description,imageUrl) VALUES (?,?,?,?)",[this.title,this.price,this.description,this.imageUrl])  // this will insert the data into the product table
+
+  //  (title,price,description,imageUrl) should match the column order in the db
+  // "INSERT INTO products (title,price,description,imageUrl) VALUES (?,?,?,?)",[this.title,this.price,this.description,this.imageUrl]  this is called parameteroized query to avoid sql injection
  
   }
 
