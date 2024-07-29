@@ -3,6 +3,8 @@ const rootDir = require("../util/path");
 const path = require("path");
 const fs = require("fs");
 
+const Cart = require("./cart");
+
 const p = path.join(rootDir, "data", "product.json");
 
 const getProductFromFile = (cb) => {
@@ -10,7 +12,12 @@ const getProductFromFile = (cb) => {
     if (err) {
       cb([]);
     } else {
-      cb(JSON.parse(fileContent));
+      if (!fileContent || fileContent.length === 0) {
+        cb([]);
+      } else {
+        const parsedContent = JSON.parse(fileContent);
+        cb(parsedContent);
+      }
     }
   });
 };
@@ -55,7 +62,18 @@ module.exports = class Product {
     });
   }
 
-  static deletProduct(id){
-    
+  static deletProduct(id) {
+    getProductFromFile((products) => {
+      const product = products.find((prod) => prod.id == id);
+      const updatedProducts = products.filter((prod) => prod.id !== id);
+
+      fs.writeFile(p, JSON.stringify(updatedProducts), (err) => {
+        if (!err) {
+          // here i remove the product from the cart if the deleted item in the cart
+          Cart.deleteById(id, product.price);
+        }
+      
+      });
+    });
   }
 };
