@@ -9,19 +9,21 @@ exports.getAddProducts = (req, res, next) => {
 };
 
 exports.postAddProducts = (req, res, next) => {
-  const id = null;
+  // const id = null;
   const title = req.body.title;
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
 
-  const product = new Product(id,title, imageUrl, price, description); // create a new instance
-  product.save()
-    .then(() => {
-      res.redirect("/");
-    })
-    .catch(err => console.log(err))
- 
+  Product.create({
+    // created a new product using create method
+    title: title,
+    price: price,
+    imageUrl: imageUrl,
+    description: description,
+  })
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err));
 };
 
 exports.getProducts = (req, res, next) => {
@@ -50,29 +52,25 @@ exports.getEditProduct = (req, res, next) => {
 };
 
 exports.postEditProduct = (req, res, next) => {
-  const {id,title,description,price,imageUrl} = req.body;
-  
-  const product = new Product(id,title, imageUrl, price, description); 
-  product.save(); 
-  res.redirect("/admin/products");
- 
+  const { id, title, description, price, imageUrl } = req.body;
 
+  const product = new Product(id, title, imageUrl, price, description);
+  product.save();
+  res.redirect("/admin/products");
 };
 
-exports.postDeleteProduct = (req,res,next) => {
-const prodId = req.body.id;
+exports.postDeleteProduct = (req, res, next) => {
+  const prodId = req.body.id;
 
-Product.deletProduct(prodId);
-res.redirect('/admin/products')
-// Product.fetchAllProduct((products) => {
-//   res.render("admin/products", {
-//     prods: products,
-//     pageTitle: "Admin Products",
-//     path: "/admin/products",
-//   });
-//   res.redirect("/admin/products");
+  Product.deletProduct(prodId);
+  res.redirect("/admin/products");
+  // Product.fetchAllProduct((products) => {
+  //   res.render("admin/products", {
+  //     prods: products,
+  //     pageTitle: "Admin Products",
+  //     path: "/admin/products",
+  //   });
+  //   res.redirect("/admin/products");
 
-// })
-
-
-}
+  // })
+};

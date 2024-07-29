@@ -169,3 +169,14 @@ sequelize // import this from the instance we created
 .sync() // this method creates the table only if it is not there in the db .it will not override
 .then(() => app.listen(8080)) // if this promise resolve then only app will start
 .catch((err) => console.log(err));
+
+## created a new row or row of data
+
+Product.create({ // created a new product using create method
+title: title,
+price: price,
+imageUrl: imageUrl,
+description: description,
+})
+.then((res) => console.log(res))
+.catch((err) => console.log(err)
