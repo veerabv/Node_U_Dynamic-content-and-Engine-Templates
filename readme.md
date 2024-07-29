@@ -93,3 +93,28 @@ app.use(express.static(path.join(__dirname, 'public')));  // this line will give
   we can get the data of the variable using req.params.dyanmicdata
 
 
+## SQL vs NoSql
+
+sql => is so called Tables,
+      => fields = col
+      => records = rows
+
+sql is used to relate  tables
+
+### core SQL Database Characteristics
+ - Data schema
+ - Data Relations
+     - one to one => one record matches on one record 
+     - one to many => 
+     - many to many
+
+sql => structured query language
+
+
+## NoSql
+  here we have collections 
+  in collections we have documents . object like structure
+
+## command to install a package used to connect sql database in node 
+  - npm install --save mysql2
+  
