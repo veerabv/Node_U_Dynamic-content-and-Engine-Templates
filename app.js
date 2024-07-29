@@ -2,7 +2,7 @@ const path = require("path");
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const db = require("./util/database"); // import the db pool as promise.
+// const db = require("./util/database"); // import the db pool as promise.
 
 const app = express();
 
@@ -13,9 +13,9 @@ const adminRoutes = require("./Routes/admin");
 const shopRoutes = require("./Routes/shop");
 const errorControler = require("./controllers/not_found");
 
-db.execute("SELECT * FROM products")
-    .then(result => console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",result[0],result[1]))
-    .catch(err => console.log(err)); // we execute a query to fetch the data
+// db.execute("SELECT * FROM products")   // this is testing code 
+//     .then(result => console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",result[0],result[1]))
+//     .catch(err => console.log(err)); // we execute a query to fetch the data
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
