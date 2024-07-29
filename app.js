@@ -2,18 +2,21 @@ const path = require("path");
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const db = require("./util/database"); // import the db pool as promise.
 
 const app = express();
 
-app.set("view engine", "ejs"); // we use ejs engine so we give this
-app.set("views", "views"); // where we have the view files / html file
+app.set("view engine", "ejs"); 
+app.set("views", "views"); 
 
 const adminRoutes = require("./Routes/admin");
 const shopRoutes = require("./Routes/shop");
 const errorControler = require("./controllers/not_found");
 
+db.execute('SELECT * FROM products').then().catch() ; // we execute a query to fetch the data 
+
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "public"))); // this line will give the access to the file  see in network
+app.use(express.static(path.join(__dirname, "public"))); 
 
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
