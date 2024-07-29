@@ -6,17 +6,19 @@ const db = require("./util/database"); // import the db pool as promise.
 
 const app = express();
 
-app.set("view engine", "ejs"); 
-app.set("views", "views"); 
+app.set("view engine", "ejs");
+app.set("views", "views");
 
 const adminRoutes = require("./Routes/admin");
 const shopRoutes = require("./Routes/shop");
 const errorControler = require("./controllers/not_found");
 
-db.execute('SELECT * FROM products').then().catch() ; // we execute a query to fetch the data 
+db.execute("SELECT * FROM products")
+    .then(result => console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",result[0],result[1]))
+    .catch(err => console.log(err)); // we execute a query to fetch the data
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "public"))); 
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
