@@ -18,14 +18,18 @@ exports.getProducts = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
   const id = req.params.productId;
-  Product.getProduct(id, (product) => {
-    res.render("shop/product-detail", {
-      product: product,
-      pageTitle: product.pageTitle,
-      path: "/products",
-    });
-  });
-};
+  Product.getProduct(id)
+    .then((data) => {
+      console.log(data[0]);
+      res.render("shop/product-detail", {
+        product: data[0][0], // here View we take the object only  , data[0] is an array so we take the object out from it
+        pageTitle: data[0][0].title,
+        path: "/products",
+      });
+    })
+    .catch(err => console.log(err))
+
+  };
 
 exports.getIndex = (req, res, next) => {
   Product.fetchAllProduct()
