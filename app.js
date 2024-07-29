@@ -2,7 +2,7 @@ const path = require("path");
 
 const express = require("express");
 const bodyParser = require("body-parser");
-// const db = require("./util/database"); // import the db pool as promise.
+const sequelize = require("./util/database");
 
 const app = express();
 
@@ -13,7 +13,7 @@ const adminRoutes = require("./Routes/admin");
 const shopRoutes = require("./Routes/shop");
 const errorControler = require("./controllers/not_found");
 
-// db.execute("SELECT * FROM products")   // this is testing code 
+// db.execute("SELECT * FROM products")   // this is testing code
 //     .then(result => console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",result[0],result[1]))
 //     .catch(err => console.log(err)); // we execute a query to fetch the data
 
@@ -25,4 +25,8 @@ app.use(shopRoutes);
 
 app.use(errorControler.notFound);
 
-app.listen(8080);
+//  to create a / all the table from our model definition in the product.js
+sequelize
+  .sync() // this method creates the table only if it is not there in the db .it will not override
+  .then(() => app.listen(8080)) // if this promise resolve then only app will start
+  .catch((err) => console.log(err));

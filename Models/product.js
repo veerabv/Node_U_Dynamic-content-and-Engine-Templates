@@ -1,46 +1,69 @@
-const Cart = require("./cart");
-const db = require('../util/database');
+const Sequelize = require("sequelize"); //import sequelize
 
+const sequelize = require("../util/database"); // import the connection we created using sequelize
 
+//  define () => used to create a table or schema
+// define(param1 , param2) => used to
+// param1 => is the name of the table / Model
+// param 2 => object with col definition
 
+const Product = sequelize.define("product", {
+  id: {
+    type: Sequelize.INTEGER, // this is from the package
+    autoIncrement: true,
+    allowNull: false,
+    primaryKey: true,
+  },
+  title: Sequelize.STRING, //this is the shortcut notation of the above object if we have to define only one prop
+  price: {
+    type: Sequelize.DOUBLE,
+    allowNull: false,
+  },
+  imageUrl: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+});
 
-module.exports = class Product {
-  constructor(id, title, imageUrl, price, description) {
-    this.id = id;
-    this.title = title;
-    this.imageUrl = imageUrl;
-    this.price = price;
-    this.description = description;
-  }
-  save() {
-   return db.execute("INSERT INTO products (title,price,description,imageUrl) VALUES (?,?,?,?)",[this.title,this.price,this.description,this.imageUrl])  // this will insert the data into the product table
+module.exports = Product;
 
-  //  (title,price,description,imageUrl) should match the column order in the db
-  // "INSERT INTO products (title,price,description,imageUrl) VALUES (?,?,?,?)",[this.title,this.price,this.description,this.imageUrl]  this is called parameteroized query to avoid sql injection
- 
-  }
+// <---------------------SQL Code------------------------------->
+// const Cart = require("./cart");
+// const db = require('../util/database');
 
-  static fetchAllProduct() {
-    return db.execute("SELECT * FROM products");
-  }
+// module.exports = class Product {
+//   constructor(id, title, imageUrl, price, description) {
+//     this.id = id;
+//     this.title = title;
+//     this.imageUrl = imageUrl;
+//     this.price = price;
+//     this.description = description;
+//   }
+//   save() {
+//    return db.execute("INSERT INTO products (title,price,description,imageUrl) VALUES (?,?,?,?)",[this.title,this.price,this.description,this.imageUrl])  // this will insert the data into the product table
 
-  static getProduct(id) {
-    return db.execute("SELECT * FROM products WHERE products.id = ?",[id]);
-   
-  }
+//   //  (title,price,description,imageUrl) should match the column order in the db
+//   // "INSERT INTO products (title,price,description,imageUrl) VALUES (?,?,?,?)",[this.title,this.price,this.description,this.imageUrl]  this is called parameteroized query to avoid sql injection
 
-  static deletProduct(id) {
-    
-  }
-};
+//   }
 
+//   static fetchAllProduct() {
+//     return db.execute("SELECT * FROM products");
+//   }
 
+//   static getProduct(id) {
+//     return db.execute("SELECT * FROM products WHERE products.id = ?",[id]);
 
+//   }
 
+//   static deletProduct(id) {
 
-
-
-
+//   }
+// };
 
 // <-------------------------------------------old COde before db connections Promise----------------------------------------------------->
 // const rootDir = require("../util/path");
@@ -103,7 +126,7 @@ module.exports = class Product {
 //   static getProduct(id, cb) {
 //     getProductFromFile((products) => {
 //       const product = products.find((item) => item.id === id);
-      
+
 //       cb(product);
 //     });
 //   }
@@ -118,7 +141,7 @@ module.exports = class Product {
 //           // here i remove the product from the cart if the deleted item in the cart
 //           Cart.deleteById(id, product.price);
 //         }
-      
+
 //       });
 //     });
 //   }
