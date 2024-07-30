@@ -127,3 +127,11 @@ save() {
   // "INSERT INTO products (title,price,description,imageUrl) VALUES (?,?,?,?)",[this.title,this.price,this.description,this.imageUrl]  this is called parameteroized query to avoid sql injection
  
   }
+
+# SEQUELIZE
+
+ - ORM => Object Relational Mapping
+ - coomand
+    => npm install --save sequelize 
+
+    note : we also have to install   npm install --save mysql2 then only sequlize works 
