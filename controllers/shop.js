@@ -2,18 +2,15 @@ const Product = require("../Models/product"); // we import the class Product
 const Cart = require("../Models/cart");
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAllProduct()
-  .then((data) => {
-    // here data contains nested array , simply log and see
-    res.render("shop/product-list", {
-      prods: data[0],
-      pageTitle: "All Products",
-      path: "/products",
-    });
-  })
-  .catch((err) => console.log(err));
-
-  
+  Product.findAll()
+    .then((products) => {
+      res.render("shop/product-list", {
+        prods: products,
+        pageTitle: "All Products",
+        path: "/products",
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.getProduct = (req, res, next) => {
@@ -27,16 +24,14 @@ exports.getProduct = (req, res, next) => {
         path: "/products",
       });
     })
-    .catch(err => console.log(err))
-
-  };
+    .catch((err) => console.log(err));
+};
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAllProduct()
-    .then((data) => {
-      // here data contains nested array , simply log and see
+  Product.findAll()
+    .then((products) => {
       res.render("shop/index", {
-        prods: data[0],
+        prods: products,
         pageTitle: "Shop",
         path: "/",
       });
@@ -96,7 +91,6 @@ exports.getCheckout = (req, res, next) => {
     pageTitle: "checkout",
   });
 };
-
 
 // <------------------------------------------OLD CODE------------------------------------------------------>
 // const Product = require("../Models/product"); // we import the class Product
@@ -169,12 +163,10 @@ exports.getCheckout = (req, res, next) => {
 
 //   Product.getProduct(id,(product) => {
 //     Cart.deleteById(id,product.price)
-    
+
 //     res.redirect("/cart")
-   
+
 //   })
-
-
 
 // }
 
