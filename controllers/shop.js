@@ -1,6 +1,7 @@
 const Product = require("../Models/product"); // we import the class Product
 const Cart = require("../Models/cart");
 
+
 exports.getProducts = (req, res, next) => {
   Product.findAll()
     .then((products) => {
@@ -15,16 +16,28 @@ exports.getProducts = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
   const id = req.params.productId;
-  Product.getProduct(id)
-    .then((data) => {
-      console.log(data[0]);
-      res.render("shop/product-detail", {
-        product: data[0][0], // here View we take the object only  , data[0] is an array so we take the object out from it
-        pageTitle: data[0][0].title,
-        path: "/products",
-      });
-    })
-    .catch((err) => console.log(err));
+ // this one will is getting the user using "where" condition in sequelize
+  Product.findAll({where : {id : id}})   // this method will return an array
+  .then((data) => {
+
+    res.render("shop/product-detail", {
+      product: data[0],
+      pageTitle: data[0].title,
+      path: "/products",
+    });
+  })
+  .catch((err) => console.log(err));
+
+  // the below code is get the product using findByPk , this method will return the object 
+  // Product.findByPk(id)
+  //   .then((data) => {
+  //     res.render("shop/product-detail", {
+  //       product: data,
+  //       pageTitle: data.title,
+  //       path: "/products",
+  //     });
+  //   })
+  //   .catch((err) => console.log(err));
 };
 
 exports.getIndex = (req, res, next) => {
