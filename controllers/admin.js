@@ -15,29 +15,25 @@ exports.postAddProducts = (req, res, next) => {
   const price = req.body.price;
   const description = req.body.description;
   Product.create({
-    title : title,
-    price : price,
+    title: title,
+    price: price,
     imageUrl: imageUrl,
-    description : description
+    description: description,
   })
-  .then(res => console.log(res))
-  .catch(err => console.log(err))
-
-
- 
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err));
 };
 
 exports.getProducts = (req, res, next) => {
   Product.findAll()
-     .then(products => {
+    .then((products) => {
       res.render("admin/products", {
         prods: products,
         pageTitle: "Admin Products",
         path: "/admin/products",
-      })
-     })
-     .catch(err => console.log(err))
-
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.getEditProduct = (req, res, next) => {
@@ -45,40 +41,51 @@ exports.getEditProduct = (req, res, next) => {
   // console.log(isEdit);
   const productId = req.params.productId;
 
-  Product.getProduct(productId, (product) => {
-    res.render("admin/edit-product", {
-      pageTitle: "Edit Product",
-      path: "/admin/edit-product",
-      editing: isEdit,
-      product,
-    });
-  });
+  Product.findByPk(productId)
+    .then((product) => {
+      // here we will find the product and prepopulated in the product form
+      res.render("admin/edit-product", {
+        pageTitle: "Edit Product",
+        path: "/admin/edit-product",
+        editing: isEdit,
+        product,
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.postEditProduct = (req, res, next) => {
-  const {id,title,description,price,imageUrl} = req.body;
-  
-  const product = new Product(id,title, imageUrl, price, description); 
-  product.save(); 
-  res.redirect("/admin/products");
- 
+  const { id, title, description, price, imageUrl } = req.body;
 
+  Product.findByPk(id)
+    .then((product) => {
+      product.title = title;
+      product.description = description;
+      product.price = price;
+      product.imageUrl = imageUrl; // upto this the product changed in our system locally to change this to db use save method
+      return product.save(); // this will save the new data to db this also returns the promise so we return it and handle in next then
+    })
+    .then((result) => {
+      console.log("succes", result);
+
+      res.redirect("/admin/products"); // we move this to see the changes in the screnn after the update if it is in the last the old data only show because of js synchronous nature
+    })
+    .catch((err) => console.log(err));
+  // res.redirect("/admin/products");
 };
 
-exports.postDeleteProduct = (req,res,next) => {
-const prodId = req.body.id;
+exports.postDeleteProduct = (req, res, next) => {
+  const prodId = req.body.id;
 
-Product.deletProduct(prodId);
-res.redirect('/admin/products')
-// Product.fetchAllProduct((products) => {
-//   res.render("admin/products", {
-//     prods: products,
-//     pageTitle: "Admin Products",
-//     path: "/admin/products",
-//   });
-//   res.redirect("/admin/products");
+  Product.deletProduct(prodId);
+  res.redirect("/admin/products");
+  // Product.fetchAllProduct((products) => {
+  //   res.render("admin/products", {
+  //     prods: products,
+  //     pageTitle: "Admin Products",
+  //     path: "/admin/products",
+  //   });
+  //   res.redirect("/admin/products");
 
-// })
-
-
-}
+  // })
+};
