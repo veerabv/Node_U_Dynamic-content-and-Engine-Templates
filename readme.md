@@ -131,7 +131,20 @@ save() {
 # SEQUELIZE
 
  - ORM => Object Relational Mapping
- - coomand
+ - comand
     => npm install --save sequelize 
 
     note : we also have to install   npm install --save mysql2 then only sequlize works 
+
+
+## to create a connection using sequelize 
+
+    - in database.js
+
+    const Sequelize = require('sequelize');  // import sequlize and it is a constructor function so it starts with capitla "S"
+
+const sequelize = new Sequelize('node-complete','root','123456789',{dialect:"mysql",host:"localhost"});  // create a instance from the constructor function
+
+
+module.exports = sequelize;
+

@@ -1,38 +1,70 @@
-const Cart = require("./cart");
-const db = require('../util/database');
+const Sequelize = require('sequelize');
 
+const sequelize =  require('../util/database');
 
-
-
-module.exports = class Product {
-  constructor(id, title, imageUrl, price, description) {
-    this.id = id;
-    this.title = title;
-    this.imageUrl = imageUrl;
-    this.price = price;
-    this.description = description;
+const Product = sequelize.define('product' , {
+  id:{
+    type : Sequelize.INTEGER,
+    autoIncrement : true,
+    allowNUll: false,
+    primaryKey : true
+  },
+  title : Sequelize.STRING, // this is the shorthand property of the obave code 
+  price :{
+    type:Sequelize.DOUBLE,
+    allowNUll:false
+  },
+  imageUrl :{
+    type:Sequelize.STRING,
+    allowNUll:false
+  },
+  description :{
+    type:Sequelize.STRING,
+    allowNUll:false
   }
-  save() {
-   return db.execute("INSERT INTO products (title,price,description,imageUrl) VALUES (?,?,?,?)",[this.title,this.price,this.description,this.imageUrl])  // this will insert the data into the product table
 
-  //  (title,price,description,imageUrl) should match the column order in the db
-  // "INSERT INTO products (title,price,description,imageUrl) VALUES (?,?,?,?)",[this.title,this.price,this.description,this.imageUrl]  this is called parameteroized query to avoid sql injection
+});
+
+
+module.exports = Product;
+
+
+// <-----------------------------RAw query code--------------------------------------->
+// const Cart = require("./cart");
+// const db = require('../util/database');
+
+
+
+
+// module.exports = class Product {
+//   constructor(id, title, imageUrl, price, description) {
+//     this.id = id;
+//     this.title = title;
+//     this.imageUrl = imageUrl;
+//     this.price = price;
+//     this.description = description;
+//   }
+//   save() {
+//    return db.execute("INSERT INTO products (title,price,description,imageUrl) VALUES (?,?,?,?)",[this.title,this.price,this.description,this.imageUrl])  // this will insert the data into the product table
+
+//   //  (title,price,description,imageUrl) should match the column order in the db
+//   // "INSERT INTO products (title,price,description,imageUrl) VALUES (?,?,?,?)",[this.title,this.price,this.description,this.imageUrl]  this is called parameteroized query to avoid sql injection
  
-  }
+//   }
 
-  static fetchAllProduct() {
-    return db.execute("SELECT * FROM products");
-  }
+//   static fetchAllProduct() {
+//     return db.execute("SELECT * FROM products");
+//   }
 
-  static getProduct(id) {
-    return db.execute("SELECT * FROM products WHERE products.id = ?",[id]);
+//   static getProduct(id) {
+//     return db.execute("SELECT * FROM products WHERE products.id = ?",[id]);
    
-  }
+//   }
 
-  static deletProduct(id) {
+//   static deletProduct(id) {
     
-  }
-};
+//   }
+// };
 
 
 

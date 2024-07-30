@@ -14,6 +14,7 @@ exports.postAddProducts = (req, res, next) => {
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
+  
 
   const product = new Product(id,title, imageUrl, price, description); // create a new instance
   product.save()

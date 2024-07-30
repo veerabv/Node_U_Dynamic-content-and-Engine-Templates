@@ -12,6 +12,7 @@ app.set("views", "views");
 const adminRoutes = require("./Routes/admin");
 const shopRoutes = require("./Routes/shop");
 const errorControler = require("./controllers/not_found");
+// const { log } = require("console");
 
 // db.execute("SELECT * FROM products")   // this is testing code 
 //     .then(result => console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",result[0],result[1]))
@@ -19,6 +20,7 @@ const errorControler = require("./controllers/not_found");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
+
 
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
