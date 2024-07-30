@@ -2,7 +2,7 @@ const path = require("path");
 
 const express = require("express");
 const bodyParser = require("body-parser");
-// const db = require("./util/database"); // import the db pool as promise.
+const sequelize = require("./util/database"); 
 
 const app = express();
 
@@ -27,4 +27,12 @@ app.use(shopRoutes);
 
 app.use(errorControler.notFound);
 
-app.listen(8080);
+sequelize.sync()   // this will create the table and start the server when we put the app.listen in the .then
+ .then(res => {
+    app.listen(8080)
+ })
+ .catch(err => console.log(err))
+
+
+
+// app.listen(8080);
