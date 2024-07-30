@@ -19,20 +19,23 @@ const errorControler = require("./controllers/not_found");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use((req,res,next) => {
-   User.findByPk(1)
-   .then(user => {
-      return req.user = user;      // here we will set the user for every req .. we can do req.user a random key and assign value. here we will assign a object from seq so we can use destroy , save like methods by seq
+app.use((req, res, next) => {
+  User.findByPk(1)
+    .then((user) => {
+      req.user = user; // here we will set the user for every req .. we can do req.user a random key and assign value. here we will assign a object from seq so we can use destroy , save like methods by seq
+      next();
    })
-   .catch(err => console.log(err))
-   next()
-})
+    .catch((err) => console.log(err));
+
+});
 
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 
 app.use(errorControler.notFound);
 
+
+// eventhough both lines set the same relation there is dfiiference -> refer readme file
 Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
 //this line define the relation between the two Model or tables , the second one is optional the "constraints" key is used to control the foreign key creation in the db
 User.hasMany(Product); // this is the inverse of the above line
@@ -41,10 +44,11 @@ User.hasMany(Product); // this is the inverse of the above line
 sequelize
   .sync() // force true is used in development to reflect the changes made in production we wont use that
   .then((result) => {
-    return User.findByPk(1);  // this is used to create a dummy user for our website
+    return User.findByPk(1); // this is used to create a dummy user for our website
   })
   .then((user) => {
-    if (!user) {  // here we will check for user if not create it otherwise return it
+    if (!user) {
+      // here we will check for user if not create it otherwise return it
       return User.create({ name: "veeera", email: "test@test.com" });
     }
     return user;

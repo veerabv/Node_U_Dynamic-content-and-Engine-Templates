@@ -9,17 +9,31 @@ exports.getAddProducts = (req, res, next) => {
 };
 
 exports.postAddProducts = (req, res, next) => {
+  // console.log(req.user , "::::::::::::::::::::::::::::::::::");
   const id = null;
   const title = req.body.title;
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
-  Product.create({
+  //this is one way
+  // Product.create({
+  //   title: title,
+  //   price: price,
+  //   imageUrl: imageUrl,
+  //   description: description,
+  //   userId : req.user.id  // this is one way to set the userId from the req we set in the app .js , we can also set the id using magic association method
+  // })
+  //   .then((product) => res.redirect("/admin/products"))
+  //   .catch((err) => console.log(err));
+
+    //  this is anotherWay elequent way
+
+    req.user.createProduct({    // we set the user in app.js middlewhere refer the readme file to know about where we get this "createProduct" suddenly  . the  Product in createProduct is come from the model name we gave
     title: title,
     price: price,
     imageUrl: imageUrl,
     description: description,
-  })
+    })
     .then((product) => res.redirect("/admin/products"))
     .catch((err) => console.log(err));
 };
